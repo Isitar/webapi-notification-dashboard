@@ -1,6 +1,4 @@
-import exp from 'constants';
 import express, { Express, Request, Response } from 'express';
-import INotificationRepository from '../domain/INotificationRepository';
 import Notification from '../domain/Notification';
 import { IDiContainer } from './di/di';
 import ICreateNotification from './requestObjects/ICreateNotification';

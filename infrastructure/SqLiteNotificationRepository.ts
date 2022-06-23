@@ -29,10 +29,10 @@ export default class SqLiteNotificationRepository implements INotificationReposi
 
     public async notifications(): Promise<Notification[]> {
         await this.ensureCreated();
-        const notifications = await  this.db!.all<Notification[]>("SELECT category, ts, title FROM notifications");
+        const notifications = await this.db!.all<Notification[]>("SELECT category, ts, title FROM notifications");
         return notifications;
     }
-    public async notification(title: string): Promise<Notification|undefined> {
+    public async notification(title: string): Promise<Notification | undefined> {
         await this.ensureCreated();
         const notification = await this.db!.get<Notification>("SELECT category, ts, title FROM notifications WHERE title = ?", title);
         return notification!;
@@ -40,7 +40,7 @@ export default class SqLiteNotificationRepository implements INotificationReposi
     public async addOrUpdateNotification(notification: Notification): Promise<void> {
         await this.ensureCreated();
         const dbNotification = await this.notification(notification.title);
-        console.log(notification,dbNotification)
+        console.log(notification, dbNotification)
         if (dbNotification === undefined) {
             await this.db!.run("INSERT INTO notifications (category, ts, title) VALUES (?, ?, ?)", notification.category, notification.ts, notification.title);
         } else {

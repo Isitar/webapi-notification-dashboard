@@ -7,7 +7,7 @@ export default class Notification {
 
 
     constructor(category: NotificationCategory, ts: string, title: string) {
-        this.category =category;
+        this.category = category;
         this.ts = ts;
         this.title = title;
     }
