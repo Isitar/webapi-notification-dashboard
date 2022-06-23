@@ -2,9 +2,30 @@
 
 ## Api doc
 
-- HTTP GET /notifications | gets all the notifications
-- HTTP POST /notifications | inserts a  notification
-- HTTP DELETE /notifications?title=123 | deletes the notification with title 123
+
+### Read notifications
+```
+HTTP GET /notifications
+```
+Gets all notifications, the following structure is used:
+```
+{"category":"ICT","ts":"2022-01-01T00:00:00Z","title":"Host ICT down"}
+```
+
+### Create notifications
+```
+HTTP POST /notifications
+{"category":"ICT","ts":"2022-01-01T00:00:00Z","title":"Host ICT down"}
+```
+Inserts a new notification or updates an existing one with the same title
+
+### Delete notification
+
+```
+HTTP DELETE /notifications?title=123
+```
+Deletes the notification with title `123`
+
 
 ## Websocket
 
