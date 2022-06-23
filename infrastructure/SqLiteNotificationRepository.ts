@@ -14,7 +14,7 @@ export default class SqLiteNotificationRepository implements INotificationReposi
 
 
             this.db = await open<sqlite3Db, sqlite3Sm>({
-                filename: 'database.db',
+                filename: process.env.DBPATH ?? 'database.db',
                 driver: sqlite3Db,
             });
 
