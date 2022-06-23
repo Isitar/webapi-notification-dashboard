@@ -1,0 +1,8 @@
+### delete ict notification
+
+DELETE http://localhost:8000/notifications?title=Host%20ICT%20down HTTP/1.1
+
+
+### delete swe notification
+
+DELETE  http://localhost:8000/notifications?title=Kubernetes%20MAX%20Memory%20Pressure HTTP/1.1

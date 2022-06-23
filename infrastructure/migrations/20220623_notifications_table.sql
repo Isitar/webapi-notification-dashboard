@@ -1,0 +1,1 @@
+CREATE TABLE notifications (category TEXT, ts TEXT, title TEXT);

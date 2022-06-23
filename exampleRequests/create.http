@@ -1,0 +1,22 @@
+### Create ict notification
+
+POST http://localhost:8000/notifications HTTP/1.1
+content-Type: application/json
+
+{
+    "category": "ICT",
+    "title": "Host ICT down",
+    "ts": "2022-01-01T00:00:00Z"
+}
+
+### Create swe notification
+
+POST http://localhost:8000/notifications HTTP/1.1
+content-Type: application/json
+
+{
+    "category": "SWE",
+    "title": "Kubernetes MAX Memory Pressure",
+    "ts": "2022-01-01T07:00:00Z"
+}
+
