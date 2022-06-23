@@ -1,7 +1,12 @@
 # Simple notification dashboard api
 
-## Api doc
+## Run it
+```
+npm run dev
+```
 
+
+## Api doc
 
 ### Read notifications
 ```
