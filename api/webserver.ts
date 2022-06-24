@@ -5,6 +5,8 @@ import ICreateNotification from './requestObjects/ICreateNotification';
 import http from 'http';
 import WebSocket from 'ws';
 
+import cors from 'cors';
+
 export default class WebServer {
 
     private diContainer: IDiContainer;
@@ -19,11 +21,8 @@ export default class WebServer {
         const app: Express = express();
         const port = process.env.PORT;
 
-
-
         app.use(express.json())
-
-
+        app.use(cors());
 
 
         app.get('/notifications', async (req: Request, res: Response) => {
@@ -43,21 +42,30 @@ export default class WebServer {
         app.post('/notifications', async (req: Request<ICreateNotification>, res: Response) => {
             const createReq = req.body;
             const notification = new Notification(createReq.category, createReq.ts, createReq.title);
-            await this.diContainer.notificationRepository.addOrUpdateNotification(notification);
-
-            wss.clients.forEach(c => {
-                c.send('created: ' + JSON.stringify(notification));
-            })
+            if (await this.diContainer.notificationRepository.addOrUpdateNotification(notification)) {
+                wss.clients.forEach(c => {
+                    c.send('created: ' + JSON.stringify(notification));
+                })
+            } else {
+                wss.clients.forEach(c => {
+                    c.send('updated: ' + JSON.stringify(notification));
+                })
+            }
         })
 
 
         app.delete('/notifications', async (req: Request, res: Response) => {
             const title = req.query['title'] as string;
-            const deletedNotification = await this.diContainer.notificationRepository.deleteNotification(title);
-            wss.clients.forEach(c => {
-                c.send('deleted: ' + JSON.stringify(deletedNotification));
-            })
-            res.json(deletedNotification);
+            try {
+                const deletedNotification = await this.diContainer.notificationRepository.deleteNotification(title);
+                wss.clients.forEach(c => {
+                    c.send('deleted: ' + JSON.stringify(deletedNotification));
+                })
+                res.json(deletedNotification);
+            } catch {
+                res.sendStatus(404);
+            }
+
         })
 
         server.listen(port, () => {

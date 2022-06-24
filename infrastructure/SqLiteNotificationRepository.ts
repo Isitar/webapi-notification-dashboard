@@ -37,14 +37,15 @@ export default class SqLiteNotificationRepository implements INotificationReposi
         const notification = await this.db!.get<Notification>("SELECT category, ts, title FROM notifications WHERE title = ?", title);
         return notification!;
     }
-    public async addOrUpdateNotification(notification: Notification): Promise<void> {
+    public async addOrUpdateNotification(notification: Notification): Promise<boolean> {
         await this.ensureCreated();
-        const dbNotification = await this.notification(notification.title);
-        console.log(notification, dbNotification)
+        const dbNotification = await this.notification(notification.title);        
         if (dbNotification === undefined) {
             await this.db!.run("INSERT INTO notifications (category, ts, title) VALUES (?, ?, ?)", notification.category, notification.ts, notification.title);
+            return true;
         } else {
             await this.db!.run("UPDATE notifications SET category = ?, ts = ? WHERE title = ?", notification.category, notification.ts, notification.title);
+            return false;
         }
     }
     public async deleteNotification(title: string): Promise<Notification> {
