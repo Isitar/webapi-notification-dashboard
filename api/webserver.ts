@@ -19,7 +19,7 @@ export default class WebServer {
 
     public create(): http.Server {
         const app: Express = express();
-        const port = process.env.PORT;
+        const port = process.env.PORT ?? 80;
 
         app.use(express.json())
         app.use(cors());
