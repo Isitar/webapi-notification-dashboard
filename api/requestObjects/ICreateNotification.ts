@@ -4,4 +4,5 @@ export default interface ICreateNotification {
     category: NotificationCategory;
     ts: string;
     title: string;
+    subTitle: string;
 }

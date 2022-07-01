@@ -41,7 +41,7 @@ export default class WebServer {
 
         app.post('/notifications', async (req: Request<ICreateNotification>, res: Response) => {
             const createReq = req.body;
-            const notification = new Notification(createReq.category, createReq.ts, createReq.title);
+            const notification = new Notification(createReq.category, createReq.ts, createReq.title, createReq.subTitle);
             if (await this.diContainer.notificationRepository.addOrUpdateNotification(notification)) {
                 wss.clients.forEach(c => {
                     c.send('created: ' + JSON.stringify(notification));
